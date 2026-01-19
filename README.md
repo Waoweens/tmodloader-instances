@@ -1,7 +1,5 @@
-# Tauri + SvelteKit + TypeScript
+# tmodloader-instances
 
-This template should help get you started developing with Tauri, SvelteKit and TypeScript in Vite.
+instance manager for tModLoader, kinda like MultiMC/Prism Launcher but for Terraria
 
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+work in progress, not usable yet
