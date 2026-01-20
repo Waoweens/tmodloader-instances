@@ -27,4 +27,7 @@ tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-devtools = "2.0.1"
 toml = "0.9.11"
+specta = "2.0.0-rc.22"
+specta-typescript = "0.0.9"
+tauri-specta = { version = "2.0.0-rc.21", features = ["derive", "typescript"] }
 
