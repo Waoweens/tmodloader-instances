@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+* {
+	font-family: system-ui;
+}
+
+.input-basic {
+	@apply border rounded p-1 bg-gray-100;
+}
+
+.checkbox-basic input[type="checkbox"] {
+	@apply w-4 h-4 cursor-pointer align-middle mr-2;
+}
+.checkbox-basic span {
+	@apply inline-block align-middle leading-tight;
+}
+.checkbox-basic:has( input[disabled] ) {
+	@apply cursor-not-allowed text-gray-500;
+}
+
+input[disabled] {
+	@apply cursor-not-allowed border-none bg-gray-300;
+}
+
+.button-basic {
+	@apply p-1 border rounded cursor-pointer bg-gray-100 px-2;
+}
