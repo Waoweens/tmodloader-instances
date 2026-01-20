@@ -7,13 +7,15 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-fn pick_tmod_dir(app: tauri::AppHandle) {
-	let ans = app
-		.dialog()
-		.message("File not found")
-		.kind(tauri_plugin_dialog::MessageDialogKind::Error)
-		.title("Warning")
-		.blocking_show();
+async fn pick_tmod_dir(app: tauri::AppHandle) -> Option<String> {
+	let path = app.dialog().file().blocking_pick_folder();
+	println!("Picked tModLoader directory: {:?}", path);
+
+	if let Some(dir) = path {
+		Some(dir.to_string())
+	} else {
+		None
+	}
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
