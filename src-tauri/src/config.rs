@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use specta::Type;
-use std::{path::Path, path::PathBuf, sync::Mutex, fs};
-use tauri::{Manager, path::BaseDirectory};
+use std::{fs, path::Path, path::PathBuf, sync::Mutex};
+use tauri::{path::BaseDirectory, Manager};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub struct Config {

@@ -1,23 +1,22 @@
 use crate::config::Config;
 use specta_typescript::Typescript;
-use std::sync::Mutex;
+use std::fs;
 use std::path::Path;
-use tauri::{Manager, path::BaseDirectory};
+use std::sync::Mutex;
+use tauri::{path::BaseDirectory, Manager};
 use tauri_specta::collect_commands;
 use toml;
-use std::fs;
 
 pub mod config;
 mod instances;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-	let specta_builder = tauri_specta::Builder::<tauri::Wry>::new()
-		.commands(collect_commands![
-			config::get_config,
-			config::set_config,
-			config::save_config
-		]);
+	let specta_builder = tauri_specta::Builder::<tauri::Wry>::new().commands(collect_commands![
+		config::get_config,
+		config::set_config,
+		config::save_config
+	]);
 
 	let mut tauri_builder = tauri::Builder::default()
 		.plugin(tauri_plugin_fs::init())
