@@ -7,16 +7,16 @@ use tauri_specta::collect_commands;
 use toml;
 use std::fs;
 
-mod commands;
 pub mod config;
+mod instances;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
 	let specta_builder = tauri_specta::Builder::<tauri::Wry>::new()
 		.commands(collect_commands![
-			commands::get_config,
-			commands::set_config,
-			commands::save_config
+			config::get_config,
+			config::set_config,
+			config::save_config
 		]);
 
 	let mut tauri_builder = tauri::Builder::default()
