@@ -25,7 +25,7 @@ pub fn run() {
 	#[cfg(debug_assertions)]
 	{
 		specta_builder
-			.export(Typescript::default(), "../src/bindings.ts")
+			.export(Typescript::default(), "../src/lib/bindings.ts")
 			.expect("failed to export TypeScript bindings");
 	}
 

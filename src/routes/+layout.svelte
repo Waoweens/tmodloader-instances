@@ -1,8 +1,7 @@
 <script lang="ts">
 	import '../app.css'
-	import '../bindings'
 	import { invoke } from "@tauri-apps/api/core";
-	import { type Config } from '../bindings';
+	import { type Config } from '$lib/bindings';
 
 	(async () => {
 		const config = await invoke<Config>('load_config');
