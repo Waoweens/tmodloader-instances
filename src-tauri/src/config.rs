@@ -1,26 +1,27 @@
-use std::path::{PathBuf};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use specta::Type;
+use std::path::PathBuf;
+use tauri_plugin_store;
 
-#[derive(Debug, Clone, Serialize, Type)]
+#[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub struct Config {
 	pub appearance: Appearance,
 	pub directories: Directories,
 	pub launcher: Launcher,
 }
 
-#[derive(Debug, Clone, Serialize, Type)]
+#[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub struct Appearance {
-	pub theme: Theme
+	pub theme: Theme,
 }
 
-#[derive(Debug, Clone, Serialize, Type)]
+#[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub struct Directories {
 	pub tmodloader_installation: PathBuf,
 	pub tmodloader_data: PathBuf,
 }
 
-#[derive(Debug, Clone, Serialize, Type)]
+#[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub struct Launcher {
 	pub launch_mode: LaunchMode,
 	pub game_arguments: Vec<String>,
@@ -29,14 +30,14 @@ pub struct Launcher {
 	pub use_gamemode: bool,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Type)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Type)]
 pub enum Theme {
 	System,
 	Light,
 	Dark,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Type)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Type)]
 pub enum LaunchMode {
 	Execute,
 	SteamRun,
@@ -61,8 +62,4 @@ impl Default for Config {
 			},
 		}
 	}
-}
-
-pub fn load_config() -> Config {
-	Config::default()
 }

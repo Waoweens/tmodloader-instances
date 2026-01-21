@@ -1,21 +1,29 @@
-use serde::{Deserialize, Serialize};
+use crate::config::Config;
 use specta_typescript::Typescript;
-use tauri_specta::{collect_commands, Builder};
+use std::sync::Mutex;
+use std::path::Path;
+use tauri::{Manager, path::BaseDirectory};
+use tauri_specta::collect_commands;
+use toml;
+use std::fs;
 
-pub mod config;
 mod commands;
+pub mod config;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-	let specta_builder = Builder::<tauri::Wry>::new()
-		.commands(collect_commands![commands::load_config]);
+	let specta_builder = tauri_specta::Builder::<tauri::Wry>::new()
+		.commands(collect_commands![
+			commands::get_config,
+			commands::set_config,
+			commands::save_config
+		]);
 
 	let mut tauri_builder = tauri::Builder::default()
 		.plugin(tauri_plugin_fs::init())
 		.plugin(tauri_plugin_dialog::init())
 		.plugin(tauri_plugin_store::Builder::new().build())
 		.plugin(tauri_plugin_opener::init());
-		
 
 	#[cfg(debug_assertions)]
 	{
@@ -33,9 +41,29 @@ pub fn run() {
 		.invoke_handler(specta_builder.invoke_handler())
 		.setup(move |app| {
 			specta_builder.mount_events(app);
+
+			let config_path = app
+				.path()
+				.resolve(Path::new("config.toml"), BaseDirectory::AppData)
+				.unwrap();
+
+			let config_str = fs::read_to_string(&config_path);
+
+			let config: Config = match config_str {
+				Ok(content) => toml::from_str(&content).unwrap(),
+				Err(_) => {
+					println!("config.toml not found, using default config");
+					let default_config = Config::default();
+					let toml_str = toml::to_string_pretty(&default_config).unwrap();
+					fs::create_dir_all(config_path.parent().unwrap()).unwrap();
+					fs::write(&config_path, toml_str).unwrap();
+					default_config
+				}
+			};
+
+			app.manage(Mutex::new(config));
 			Ok(())
 		})
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
-		
 }
